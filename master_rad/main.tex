@@ -241,7 +241,7 @@ Teorija je Hornova ako je $M = Cl_{\land}(M)$, gde je $Cl_{\land}(M)$ zatvorenje
 
 Hornova teorija $M'$ je Hornovo jezgro teorije $M$ ako je $M' \subseteq M$ i ne postoji Hornova teorija $M''$ takva da je $M' \subseteq M'' \subseteq M$. Primećujemo da, uopšteno, teorija $M$ može imati više od jednog Hornovog jezgra \cite{doc1}.
 
-Iz ovog opisa Hornovog jezgra se može jednostavno formirati algoritam za pronalaženje jednog Hornovog jezgra teorije $M$. Na početku se Hornovo jezgro $M'$ inicijalizuje praznim skupom. Zatim se prolazi kroz sve komponente modela iz $M$ koje se prethodno mogu sortirati prema bitovskom uređenju i dodaju se u $M'$. Nakon toga se proverava da li je trenutni skup $M'$ zatvoren za konjunkciju, tako što se za svaki par $v, w \in M'$ proverava da li je $v \land w \in M'$. Ako jeste, dodatu komponenta se zadržava u $M'$, a u suprotnom se izbacuje. Opisanim postupkom dobijamo jedno Hornovo jezgro početnog skupa modela $M$.\\
+Iz ovog opisa Hornovog jezgra se može jednostavno formirati algoritam za pronalaženje jednog Hornovog jezgra teorije $M$. Na početku se Hornovo jezgro $M'$ inicijalizuje praznim skupom. Zatim se prolazi kroz sve komponente modela iz $M$ koje se prethodno mogu sortirati prema bitovskom uređenju i dodaju se u $M'$. Nakon toga se proverava da li je trenutni skup $M'$ zatvoren za konjunkciju, tako što se za svaki par $v, w \in M'$ proverava da li je $v \land w \in M'$. Ako jeste, dodata komponenta se zadržava u $M'$, a u suprotnom se izbacuje. Opisanim postupkom dobijamo jedno Hornovo jezgro početnog skupa modela $M$.\\
 
 \begin{algorithm}
     \caption{Pronalazak Hornovog jezgra}
@@ -312,7 +312,7 @@ Ova metoda se zasniva na ideji smena faza sistematičnih i nasumičnih (stohasti
     \item \textbf{definisanje početnog rešenja} - pretraga počinje od nekog početnog rešenja, koje može biti nasumično generisano ili dobijeno nekom heuristikom;
     \item \textbf{razmrdavanje (\textit{eng.} shaking}) - promena trenutnog rešenja slučajnim izborom rešenja iz trenutne okoline, koja ima za cilj izlazak iz lokalnog optimuma i pomeranje u novo, potencijalno bolje rešenje;
     \item \textbf{popravljanje} - lokalnom pretragom se od izabranog rešenja iz faze razmrdavanja dolazi do lokalnog optimuma u njegovoj okolini;
-    \item \textbf{pomeranje} - ako lokalna pretraga pronađe bolje rešenje od trenutno najboljeg rešenja, pretraga se nastavlja oko tog rešenja. U suprotnom, menja se okolina za razmrdavanje kako bi se istražila nova okruženje potencijalnih rešenja;
+    \item \textbf{pomeranje} - ako lokalna pretraga pronađe bolje rešenje od trenutno najboljeg rešenja, pretraga se nastavlja oko tog rešenja. U suprotnom, menja se okolina za razmrdavanje kako bi se istražila nova okruženja potencijalnih rešenja;
     \item \textbf{zaustavljanje} - pretraga se završava kada je ispunjen određeni kriterijum zaustavljanja, kao što je vreme izvršavanja algoritma ili maksimalan broj iteracija \cite{mladenovic2009}.
 \end{itemize}
 
@@ -373,6 +373,7 @@ Prvo, algoritam identifikuje zajedničke jedinice u svim modelima. Ovo su pozici
         \STATE $I \gets I \cup \{ i \}$
     \ENDIF
 \ENDFOR
+\RETURN $I$
 \end{algorithmic}
 \end{algorithm}
 
@@ -402,6 +403,7 @@ Nakon što su zajedničke jedinice identifikovane, sledeći korak je skraćivanj
     \ENDFOR
     \STATE $M' \gets M' \cup \{(m, m')\}$
 \ENDFOR
+\RETURN $M'$
 \end{algorithmic}
 \end{algorithm}
 
@@ -435,6 +437,7 @@ Generisanje svih mogućih binarnih varijacija sa ponavljanjem predstavlja slede�
         \STATE $F \gets F + "\vee" + C$
     \ENDIF
 \ENDFOR
+\RETURN $F$
 \end{algorithmic}
 \end{algorithm}
 
@@ -478,12 +481,12 @@ U procesu redukcije, rezolucija se koristi za identifikaciju i eliminaciju nesla
 \ENSURE Reducirana Hornova formula $F'$
 \STATE $F' \gets ""$
 \STATE $klauze \gets \text{split}(\text{formula}, \&)$
-\WHILE{postoji\_ne\_Hornova\_klauza}
+\WHILE{$PostojiNeHornovaKlauza(klauze)$}
     \STATE $rezolvirane\_klauze \gets \emptyset$
     \STATE $rezolvirana\_klauza \gets \text{None}$
     \STATE $rezolviran \gets \text{False}$
     \FOR{$k1,k2 \in klauze$}
-        \STATE $rezolvirana\_klauza, potrebne\_izmene \gets primeni\_rezoluciju(k1,k2)$
+        \STATE $rezolvirana\_klauza, potrebne\_izmene \gets PrimeniRezoluciju(k1,k2)$
         \IF{$rezolvirana\_klauza \neq \text{None}$ \AND $potrebne\_izmene$}
             \STATE $rezolvirane\_klauze \gets rezolvirane\_klauze \cup \{rezolvirana\_klauza\}$
         \ENDIF
@@ -636,7 +639,7 @@ Mali testni skupovi omogućavaju detaljno ispitivanje performansi algoritama u k
 
 Analiza malih testnih primera treba da nam pokaže da li algoritmi funkcionišu kako je očekivano i da li su rezultati u skladu sa onima dobijenim putem metode grube sile. Ova konzistentnost potvrđuje tačnost i pouzdanost implementacija korišćenih algoritama. Male instance omogućavaju detaljnu proveru ispravnosti svakog koraka u algoritmu, osiguravajući da implementacija funkcioniše kako je predviđeno.
 
-Na slikama \ref{fig:slika1} i \ref{fig:slika2} prikazani su rezultati rada algoritma grube sile, pohlepne pretrage i VNS algoritma na malim test primerima. Rezultati uključuju detaljne informacije o ulaznim podacima (veličinu ulaznog skupa modela i njegove članove), broj valuacija u maksimalnom Hornovom jezgru, članove maksimalnog Hornovog jezgra, kao i formule generisane na osnovu Hornovog jezgra (CNF formula i Hornova formula dobijena redukcijom CNF formule). Svaka slika daje uvid u performanse korišćenih metoda i omogućava analizu tačnosti njihove tačnosti.
+Na slikama \ref{fig:slika1} i \ref{fig:slika2} prikazani su rezultati rada algoritma grube sile, pohlepne pretrage i VNS algoritma na malim test primerima. Rezultati uključuju detaljne informacije o ulaznim podacima (veličinu ulaznog skupa modela i njegove članove), broj valuacija u maksimalnom Hornovom jezgru, članove maksimalnog Hornovog jezgra, kao i formule generisane na osnovu Hornovog jezgra (CNF formula i Hornova formula dobijena redukcijom CNF formule). Svaka slika daje uvid u performanse korišćenih metoda i omogućava analizu njihove tačnosti.
 
 \begin{figure}[H]
     \centering
@@ -725,7 +728,7 @@ Rezultati testiranja velikih testnih skupova potvrđuju prethodna očekivanja. V
 
 Takođe, pohlepna pretraga pokazuje brže vreme izvršavanja, ali često sa većim oscilacijama u kvalitetu rešenja tokom različitih iteracija. Ove oscilacije ukazuju na njenu sklonost da se zaglavi u lokalnim optimumima, što je u skladu sa teorijskim očekivanjima. VNS se, s druge strane, pokazuje kao robustan pristup u pronalaženju rešenja koja pohlepna pretraga može prevideti, što potvrđuje njegovu prednost u preciznosti i stabilnosti rešenja.
 
-Dobijeni rezultatit su u skladu sa postojećim istraživanjima, koji sugerišu da VNS pruža bolje rezultate u pronalaženju globalno optimalnih rešenja. Dok pohlepna pretraga nudi prednosti u brzini i jednostavnosti, prethodne studije su istakle da VNS koristi složenije tehnike za izbegavanje lokalnih optimuma, što je evidentno u njegovoj sposobnosti da dosledno identifikuje veća jezgra u poređenju sa pohlepnom pretragom.
+Dobijeni rezultati su u skladu sa postojećim istraživanjima, koji sugerišu da VNS pruža bolje rezultate u pronalaženju globalno optimalnih rešenja. Dok pohlepna pretraga nudi prednosti u brzini i jednostavnosti, prethodne studije su istakle da VNS koristi složenije tehnike za izbegavanje lokalnih optimuma, što je evidentno u njegovoj sposobnosti da dosledno identifikuje veća jezgra u poređenju sa pohlepnom pretragom.
 
 U zaključku, dok VNS pokazuje superiornost u preciznosti, pohlepna pretraga ostaje važan alat zbog svoje jednostavnosti i brzine. Izbor između ova dva algoritma zavisi od specifičnih potreba aplikacije i raspoloživih resursa. Ova analiza omogućava donošenje informisanih odluka o tome koji algoritam koristiti u zavisnosti od specifičnih zahteva problema.
 
@@ -736,9 +739,9 @@ U ovom radu razmotrena je problematika pronalaženja maksimalnog Hornovog jezgra
 Eksperimentalni rezultati su pokazali da metaheuristički algoritmi pružaju značajnu prednost u smislu efikasnosti prilikom obrade velikih skupova podataka, dok pristup grube sile ostaje koristan za male instance zbog svoje tačnosti.
 Analizom rezultata na velikim skupovima podataka može se zaključitit da VNS pruža nešto bolje rezultate u poređenju sa pohlepnom pretragom, što ukazuje na njegovu superiornost u ovom kontekstu.
 
-Zaključujeno je da su metaheuristički algoritmi, kao što su metoda promenljivih okolina i pohlepna pretraga, veoma korisni za rešavanje problema maksimalnog Hornovog jezgra zbog svoje sposobnosti da nalaze približna rešenja u razumnom vremenskom okviru.
+Može se zaključiti da su metaheuristički algoritmi, kao što su metoda promenljivih okolina i pohlepna pretraga, veoma korisni za rešavanje problema maksimalnog Hornovog jezgra zbog svoje sposobnosti da nalaze približna rešenja u razumnom vremenskom okviru.
 
-Razvijeni algoritam za generisanje Horn formula pokazao je zadovoljavajuće rezultate u testiranju, ali postoje mogućnosti za dalja unapređenja. Trenutna verzija algoritma koristi osnovne tehnike za generisanje formula, ali u budućem radu bi moglo biti korisno implementirati sofisticiranije metode koje bi mogle poboljšati kvalitet generisanih formula i ubrzati proces generacije.
+Razvijeni algoritam za generisanje Hornove formule pokazao je zadovoljavajuće rezultate u testiranju, ali postoje mogućnosti za dalja unapređenja. Trenutna verzija algoritma koristi osnovne tehnike za generisanje formula, ali u budućem radu bi moglo biti korisno implementirati sofisticiranije metode koje bi mogle poboljšati kvalitet generisanih formula i ubrzati proces generacije.
 
 Za budući rad, preporučuje se dalja optimizacija postojećih metaheurističkih algoritama kako bi se poboljšala njihova tačnost i brzina, posebno u kontekstu vrlo velikih skupova podataka. Takođe, istraživanje novih metaheurističkih pristupa i njihova komparacija sa tradicionalnim metodama može pružiti dodatne uvide u efikasnost različitih tehnika. Implementacija naprednih tehnika kao što su hibridni algoritmi, koji kombinuju prednosti različitih metaheuristika, mogla bi biti korisna za dalje unapređenje rešenja problema maksimalnog Hornovog jezgra.
 
