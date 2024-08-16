@@ -144,7 +144,7 @@ Ovaj rad istražuje primenu metaheurističkih tehnika za rešavanje problema pro
 % \pangrami
 Problem pronalaska maksimalnog Hornovog jezgra (eng. maximum Horn core problem) spada u manje poznate NP-teške probleme optimizacije u domenu logike. Ovaj problem se može opisati kao pronalaženje najvećeg podskupa modela \(M'\) iz skupa \(M\), takvog da postoji Hornova formula čiji je skup modela jednak \(M'\) \cite{HCproblem}.
 
-Hornove formule imaju široku primenu u oblastima logike \cite{doc43,doc2}, računarstva i veštačke inteligencije, posebno u automatskom zaključivanju \cite{doc41,doc42}. Zahvaljujući ovoj širokoj primeni, sve veći broj istraživača se bavi problemima povezanim sa Hornovim formulama. Jedan od tih problema, problem pronalaska maksimalnog Hornovog jezgra, obrađen je u ovom radu i za njega je dokazano da je NP-kompletan, a detaljan dokaz može se naći u radu \cite{doc3}.
+Hornove formule imaju široku primenu u oblastima logike \cite{doc43,doc2}, računarstva i veštačke inteligencije, posebno u automatskom zaključivanju \cite{doc41,doc42}. Zahvaljujući ovoj širokoj primeni, sve veći broj istraživača se bavi problemima povezanim sa Hornovim formulama. Jedan od tih problema, problem pronalaska maksimalnog Hornovog jezgra, obrađen je u ovom radu i za njega je dokazano da je NP-kompletan \cite{doc3}.
 
 
 
@@ -191,19 +191,7 @@ Ova formula se zatim sređuje da bi se dobila sledeća Hornova formula:
 
 Modeli u maksimalnom Hornovom jezgru zadovoljavaju ovu formulu, što objašnjava zašto su ovi modeli deo Hornovog jezgra.
 
-U nastavku će biti prikazana računska složenost opisanog optimizacionog problema:
-
-\begin{theorem} 
-    \begin{enumerate}[label=(\alph*)]
-        \item[] 
-        \item Postoji algoritam polinomske vremenske složenosti (po analizi najgoreg slučaja) koji za dato $M$ generiše jedan maksimalni podskup $M'$ koji predstavlja Hornovo jezgro \cite{doc3}.
-        \item  Pronalazak maksimalnog Hornovog jezgra $M'$ je NP-kompletan problem \cite{doc3}.
-    \end{enumerate}
-\end{theorem}
-
-\begin{proof}
-    Dokaz prvog dela teoreme, kao i dokaz za NP-kompletnost problema odlučivanja koji je ekvivalentan problemu optimizacije koji se rešava u ovom radu, dat je u radu \cite{doc3}.
-\end{proof}
+Za varijantu problema odlučivanja Hornovog jezgra je dokazano da je NP-kompletna u radu \cite{doc3}.
 
 \section{Pregled dosadašnjih istraživanja}
 
