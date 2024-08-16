@@ -19,9 +19,10 @@
 \usepackage{amsthm}
 \usepackage{algorithm}
 \usepackage{algorithmic}
+\usepackage{enumitem}
 \usepackage{subfigure}
-\newtheorem{theorem}{Theorem}
-\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}[theorem]{Lema}
 \newtheorem{corollary}[theorem]{Korolar}
 % \usepackage{algpseudocode}
 \usepackage{listings}
@@ -139,16 +140,15 @@ Ovaj rad istražuje primenu metaheurističkih tehnika za rešavanje problema pro
 
 % ------------------------------------------------------------------------------
 \chapter{Uvod}
-\label{chp:uvod}
 % ------------------------------------------------------------------------------
 % \pangrami
-Problem pronalaska maksimalnog Hornovog jezgra (eng. maximum Horn core problem) spada u manje poznate NP-teške probleme optimizacije u domenu logike. Ovaj problem se može opisati kao pronalaženje najvećeg podskupa modela \(M'\) iz skupa \(M\), takvog da postoji Hornova formula čiji su svi modeli sadržani u \(M'\) \cite{HCproblem}.
+Problem pronalaska maksimalnog Hornovog jezgra (eng. maximum Horn core problem) spada u manje poznate NP-teške probleme optimizacije u domenu logike. Ovaj problem se može opisati kao pronalaženje najvećeg podskupa modela \(M'\) iz skupa \(M\), takvog da postoji Hornova formula čiji je skup modela jednak \(M'\) \cite{HCproblem}.
 
 Hornove formule imaju široku primenu u oblastima logike \cite{doc43,doc2}, računarstva i veštačke inteligencije, posebno u automatskom zaključivanju \cite{doc41,doc42}. Zahvaljujući ovoj širokoj primeni, sve veći broj istraživača se bavi problemima povezanim sa Hornovim formulama. Jedan od tih problema, problem pronalaska maksimalnog Hornovog jezgra, obrađen je u ovom radu i za njega je dokazano da je NP-kompletan, a detaljan dokaz može se naći u radu \cite{doc3}.
 
 
 
-Jedan od algoritama za rešavanje problema maksimalnog Hornovog jezgra predstavljen je u radu \cite{doc1}. Ovaj algoritam, čiji će detaljan opis biti predstavljen u Glavi \ref{chap:algoritmi}, korišćen je u ovom istraživanju. Testirana je optimizacija korišćenjem pohlepnog algoritma (\textit{eng.} greedy search) i metode promenljivih okolina (\textit{eng.} variable neighborhood search).
+Jedan od algoritama za rešavanje problema maksimalnog Hornovog jezgra predstavljen je u radu \cite{doc1}. Ovaj algoritam, čiji će detaljan opis biti predstavljen u Glavi \ref{chap:chapter2}, korišćen je u ovom istraživanju. Testirana je optimizacija korišćenjem pohlepnog algoritma (\textit{eng.} greedy search) i metode promenljivih okolina (\textit{eng.} variable neighborhood search).
 
 U nastavku ovog uvodnog poglavlja, formalno će biti definisan problem pronalaska maksimalnog Hornovog jezgra i prikazan pregled dosadašnjih istraživanja na ovu temu.
 
@@ -159,19 +159,19 @@ U nastavku ovog uvodnog poglavlja, formalno će biti definisan problem pronalask
 \section{Problem pronalaska maksimalnog Hornovog jezgra}
 U ovom poglavlju formalno će biti definisan problem pronalaska maksimalnog Hornovog jezgra, ali pre toga je potrebno definisati i neke bitne pojmove za razumevanje problema.
 
-Literal je osnovna jedinica u logici koja predstavlja atomičku formulu (poznatu i kao atom ili osnovna formula) ili njenu negaciju \cite{doc_lit}.  Hornova klauza je klauza koja sadrži najviše jedan pozitivan literal \cite{doc_horn_clause}. Hornova formula je konjunkcija Hornovih klauza, koja može biti predstavljena pomoću skupa Hornovih klauza \cite{doc3}, jer su klauze u konjunktivnoj normalnoj formi. Konjunktivna normalna forma (CNF) je logički izraz koji se sastoji od konjunkcije jedne ili više disjunkcija literala.
+Literal je osnovna jedinica u iskaznoj logici koja predstavlja atomičku formulu (poznatu i kao atom ili osnovna formula) ili njenu negaciju \cite{doc_lit}. Klauza je disjunkcija jednog ili više literala. Hornova klauza je klauza koja sadrži najviše jedan pozitivan literal \cite{doc_horn_clause}. Konjunktivna normalna forma (CNF) je logički izraz koji se sastoji od konjunkcije jedne ili više disjunkcija literala. Hornova formula je specifična vrsta formule u CNF-u koja se sastoji isključivo od Hornovih klauza \cite{doc3}.
 
 
-Model t je skup $\{0, 1\}^n$, istinitosnih valuacija logičkih promenljivih. Model t zadovoljava klauzu ako je neki literal klauze $x_i$ i $t_i=1$ ili je neki literal klauze $\neg x_i$ i $t_i=0$. Neka je dat skup $M$ modela nad $n$ iskaznih promenljivih. Hornovo jezgro skupa $M$ je podskup $M'$ za koji postoji Hornova formula takva da je $M'$ skup svih njenih modela -- svaki član skupa zadovoljava Hornovu formulu prema prethodnom opisu zadovoljivosti. Funkcija cilja za ovaj problem, koju je potrebno maksimizovati, je kardinalnost Hornovog jezgra \cite{doc3,HCproblem}.
+Model $t$ je skup $\{0, 1\}^n$ istinitosnih valuacija logičkih promenljivih. Model t zadovoljava klauzu ako je neki literal klauze $x_i$ i $t_i=1$ ili je neki literal klauze $\neg x_i$ i $t_i=0$ -- $t_i$ predstavlja vrednost $i$-te iskazne promenljive u valuaciji $t$. Neka je dat skup $M$ modela nad $n$ iskaznih promenljivih. Hornovo jezgro skupa $M$ je podskup $M'$ za koji postoji Hornova formula takva da je $M'$ skup svih njenih modela -- svaki član skupa zadovoljava Hornovu formulu prema prethodnom opisu zadovoljivosti, dok nijedan model izvan skupa $M'$ ne zadovoljava tu formulu. Funkcija cilja za problem pronalaska maksimalnog Hornovog jezgra je kardinalnost Hornovog jezgra i nju je potrebno maksimizovati \cite{doc3,HCproblem}.
 
-Važno je napomenuti da maksimalno Hornovo jezgro nije jedinstveno. Jedan skup modela $M$ može imati više različitih Hornovih jezgara, svaki sa istim brojem istinitosnih valuacija koje zadovoljavaju neku Hornovu formulu \cite{doc3}.
+Važno je napomenuti da maksimalno Hornovo jezgro, jezgro maksimalne kardinalnosti, nije jedinstveno. Jedan skup modela $M$ može imati više različitih Hornovih jezgara, svaki sa istim brojem istinitosnih valuacija koje zadovoljavaju neku Hornovu formulu \cite{doc3}.
 
 \textbf{Primer:} Razmotrimo sledeći skup modela:
 \begin{align*}
 M &= \{ (0, 0, 0, 1), (0, 1, 0, 1), (1, 0, 1, 1), (0, 1, 1, 1) \}
 \end{align*}
 
-Da bismo pronašli maksimalno Hornovo jezgro, koristimo algoritam koji dodaje valuacije u jezgro i proverava da li njihova konjunkcija pripada skupu \(M\). Počinjemo sa valuacijom \((0, 0, 0, 1)\) i dodajemo je u jezgro. Zatim dodajemo valuaciju \((0, 1, 0, 1)\), jer je njena konjunkcija sa prvom valuacijom u \(M\). Sledeća valuacija, \((1, 0, 1, 1)\), takođe se dodaje jer njene konjunkcije sa prethodnim valuacijama pripadaju skupu \(M\). Međutim, valuacija \((0, 1, 1, 1)\) se ne dodaje, jer konjunkcija sa poslednjom dodanom valuacijom \((1, 0, 1, 1)\) daje:
+Da bismo pronašli maksimalno Hornovo jezgro, koristimo algoritam koji dodaje valuacije u jezgro i proverava da li njihova "konjunkcija", primena logičke operacije $\land$ na svaku poziciju u valuaciji, pripada skupu \(M\). Počinjemo sa valuacijom \((0, 0, 0, 1)\) i dodajemo je u jezgro. Zatim dodajemo valuaciju \((0, 1, 0, 1)\), jer je njena "konjunkcija" sa prvom valuacijom u \(M\). Sledeća valuacija, \((1, 0, 1, 1)\), takođe se dodaje jer njene "konjunkcije" sa prethodnim valuacijama pripadaju skupu \(M\). Međutim, valuacija \((0, 1, 1, 1)\) se ne dodaje, jer "konjunkcija" sa poslednjom dodanom valuacijom \((1, 0, 1, 1)\) daje:
 \[
 (1, 0, 1, 1) \land (0, 1, 1, 1) = (0, 0, 1, 1)
 \] koja nije prisutna u skupu \(M\). Dakle, maksimalno Hornovo jezgro je:
@@ -179,36 +179,30 @@ Da bismo pronašli maksimalno Hornovo jezgro, koristimo algoritam koji dodaje va
 \text{M}_{\text{core}} &= \{ (0, 0, 0, 1), (0, 1, 0, 1), (1, 0, 1, 1) \}
 \end{align*}
 
-Odgovarajuća Hornova formula za ovo jezgro je:
+Dato jezgro je skup modela formule:
+\begin{align*}
+\text{Formula} &= (\neg x_1 \lor \neg x_2 \lor \neg x_3 \lor x_4) \land (\neg x_1 \lor  x_2 \lor \neg x_3 \lor x_4) \land (x_1 \lor \neg x_2 \lor x_3 \lor x_4)
+\end{align*}
+
+Ova formula se zatim sređuje da bi se dobila sledeća Hornova formula:
 \begin{align*}
 \text{Formula} &= (\neg x_1 \lor \neg x_2 \lor \neg x_3) \land x_4 \land (x_1 \lor \neg x_3) \land (x_3 \lor \neg x_1)
 \end{align*}
 
 Modeli u maksimalnom Hornovom jezgru zadovoljavaju ovu formulu, što objašnjava zašto su ovi modeli deo Hornovog jezgra.
 
-U nastavku će biti prikazana računska kompleksnost ovog algoritamskog problema:
+U nastavku će biti prikazana računska složenost opisanog optimizacionog problema:
 
-\begin{lemma}
-    Postoji polinomijalni algoritam koji za dato $M$ generiše jedan maksimalni podskup $M'$ koji predstavlja Hornovo jezgro. Zapravo, svi maksimalni podskupovi mogu biti izračunati u polinomijalnom vremenu. Maksimalnost podskupa se ogleda u tome da ne može biti proširen dodavanjem još neke istinitosne valuacije iz $M$ tako da i dalje ostane Hornovo jezgro.
-\end{lemma}
-
-\begin{proof}
-    Pravi se Hornovo jezgro koristeći modele iz M. Za svaki par $t$ i $t' \in M$ se proverava da li $t \land t' = t'' \in M$. Ako ovo važi, onda se u jezgro dodaju $t$, $t'$ i $t''$. U suprotnom, ako $t'' \notin M$, samo jedno od $t$ ili $t'$ se mogu naći u jezgru.
-\end{proof}
-
-\begin{lemma}
-    Pronalazak Hornovog jezgra maksimalne kardinalnosti $M'$ je NP-kompletan problem.
-\end{lemma}
- 
-\begin{proof}
-    Redukcija NP-kompletog problema klike. Za graf $G=(V, E)$ i ceo broj $k$ konstruiše se skup modela M \subseteq $\{0,1\}^{|E|}$ (ekvivalentno, podskupovi od E) tako što $M$ sadrži sve jednostruke skupove $\{e\}$, i, za svaki čvor $v \in V$, skup $\{e \in E : v \in e\}$. Iz ovoga sledi da je Hornovo jezgro maksimalne kardinalnosti $M'$ veličine $|E|+k$ ako i samo ako je klika za graf $G$ veličine $k$.
-\end{proof}
-\begin{lemma}
-    Ovaj problem je NP-težak za aproksimaciju bilo kojim konstantnim faktorom.
-\end{lemma}
+\begin{theorem} 
+    \begin{enumerate}[label=(\alph*)]
+        \item[] 
+        \item Postoji algoritam polinomske vremenske složenosti (po analizi najgoreg slučaja) koji za dato $M$ generiše jedan maksimalni podskup $M'$ koji predstavlja Hornovo jezgro \cite{doc3}.
+        \item  Pronalazak maksimalnog Hornovog jezgra $M'$ je NP-kompletan problem \cite{doc3}.
+    \end{enumerate}
+\end{theorem}
 
 \begin{proof}
-    Koristi pojačanu konstrukciju iz prethodnog dokaza \cite{doc3}.
+    Dokaz prvog dela teoreme, kao i dokaz za NP-kompletnost problema odlučivanja koji je ekvivalentan problemu optimizacije koji se rešava u ovom radu, dat je u radu \cite{doc3}.
 \end{proof}
 
 \section{Pregled dosadašnjih istraživanja}
@@ -217,26 +211,27 @@ Pojam Hornove formule prvi put je uveden od strane Alfreda Horna u njegovom radu
 
 Razvoj pojma Hornovog jezgra započeo je 1991. godine kada je uveden pojam "najveća donja granica" (\textit{eng.} greatest lower bound) i dat prvi algoritam za rešavanje ovog problema pomoću leksikografskog sortiranja istinitosnih valuacija iz skupa modela \cite{doc2}. Ovaj pojam je uveden kao rezultat potrebe za efikasnijim sistemima za predstavljanje znanja koji ne ograničavaju izražajnu moć jezika za predstavljanje, niti se odriču potpunosti zaključivanja. Raniji radovi, kao što su oni Doylea i Patila (1991), te Horvitza (1989), bavili su se kompromisom između obradivosti i izražajnosti koristeći ograničene jezike ili nepotpune mehanizme zaključivanja \cite{doyle1991, horvitz1989}. Za razliku od tih pristupa, uvođenje Hornovog jezgra omogućava korišćenje opšteg, neograničenog jezika koji se kompajlira u ograničeni jezik, čime se postiže efikasno zaključivanje bez gubitka izražajne moći. Ovaj novi pristup omogućava pronalaženje najbolje aproksimacije originalne informacije, što dovodi do bržeg i pouzdanijeg zaključivanja.
 
-Godine 1993., pojam "Hornovo jezgro" se prvi put spominje sa tim imenom \cite{doc3}. Ovaj rad je bio posvećen dokazivanju računske kompleksnosti problema, a ne njegovom rešavanju.
+Godine 1993., pojam "Hornovo jezgro" se prvi put spominje sa tim imenom \cite{doc3}. Ovaj rad je bio posvećen dokazivanju računske složenosti problema, a ne njegovom rešavanju.
 
-Naredni razvoj dogodio se 1998. godine kada je rešen modifikovani problem pronalaska maksimalnog Hornovog jezgra. U ovom slučaju, tražena su Hornova jezgra disjunkcije Hornovih CNF-ova \cite{doc1}.
+Naredni razvoj dogodio se 1998. godine kada je rešen modifikovani problem pronalaska maksimalnog Hornovog jezgra. U ovom slučaju, tražena su Hornova jezgra disjunkcije Hornovih formula u konjunktivnoj normalnoj formi \cite{doc1}.
 
 Pošto se metoda promenljivih okolina pokazao kao uspešna metaheuristika za rešavanje mnogih problema, u ovom istraživanju pristupilo se rešavanju problema korišćenjem ove metaheuristike i njenom poređenju sa algoritmom pohlepne pretrage. Ovaj pristup omogućava istraživanje različitih struktura rešenja i često daje bolje rezultate u poređenju sa tradicionalnim metodama kao što je pohlepna pretraga.
 
 
 \chapter{Algoritmi za rešavanje problema pronalaska maksimalnog Hornovog jezgra}
+\chaptermark{Predloženi algoritmi}
 U ovom poglavlju biće dat pregled sledeće dve metaheuristike koje su koršćene za rešavanje problema pronalaska maksimalnog Hornovog jezgra:
-\label{chap:algoritmi}
+\label{chap:chapter2}
 
 \begin{enumerate}
   \item pohlepna pretraga (\textit{eng.} greedy search);
   \item metoda promenljivih okolina (\textit{eng.} variable neighborhood search).
 \end{enumerate}
-Osim ove dve metaheuristike, biće opisan i polinomijalni algoritam generisanja jednog Hornovog jezgra, koji je pomenut u prethodnom poglavlju, kao i algoritam za generisanje Hornove formule iz skupa modela koje ta formula zadovoljava.
+Osim ove dve metaheuristike, biće opisan i algoritam polinomske vremenske složenosti generisanja jednog Hornovog jezgra, koji je pomenut u prethodnom poglavlju, kao i algoritam za generisanje Hornove formule iz skupa modela koje ta formula zadovoljava.
 
 \section{Algoritam pronalaska Hornovog jezgra}
 
-Model je vektor $t \in \{0,1\}^n$, čija je $i$-ta komponenta označena sa $t_i$. Teorija je bilo koji skup $M \subseteq \{0,1\}^n$ modela. Nad komponentama $t$ je definisano bitovsko uređenje u oznaci $t_i \leq t_j$, gde važi $0 \leq 1$. 
+Model je vektor $t \in \{0,1\}^n$, čija je $i$-ta komponenta označena sa $t_i$. Teorija je bilo koji skup $M \subseteq \{0,1\}^n$ modela. Nad modelima $t_j$ i $t_k$ se definiše bitovsko uređenje tako da za svaku komponentu $i$ vektora važi $t_j[i] \leq t_k[i]$, gde $0 \leq 1$ označava da je $0$ manja ili jednaka od $1$ u binarnom poređenju. Dakle, vektor $t_j$ je manji ili jednak vektoru $t_k$ ako nijedna komponenta vektora $t_j$ nije veća od odgovarajuće komponente vektora $t_k$.
 
 Teorija je Hornova ako je $M = Cl_{\land}(M)$, gde je $Cl_{\land}(M)$ zatvorenje skupa $M \subseteq \{0,1\}^n$ za operaciju bitovske konjunkcije (tj. preseka) valuacija $t_i$ i $t_j$, označeno sa $t_i \land t_j$.
 
@@ -350,7 +345,7 @@ Metoda VNS ima mnoge prednosti koje je čine efikasnim alatom za rešavanje prob
 
 \section{Algoritam generisanja Hornove formule na osnovu skupa modela}
 
-Ovaj algoritam generiše Hornovu formulu na osnovu skupa modela (istinitosne tablice). Proces je sistematičan i podeljen u nekoliko ključnih koraka. Cilj je da se identifikuju zajednički elementi modela, formiraju kombinacije koje zadovoljavaju sve modele, i na kraju da se formira i pojednostavi formula do Hornove forme.
+Ovaj algoritam generiše Hornovu formulu na osnovu skupa modela (istinitosne tablice). Proces je sistematičan i podeljen u nekoliko ključnih koraka. Cilj je da se identifikuju zajednički elementi modela, formiraju kombinacije koje zadovoljavaju sve modele i na kraju da se formira i pojednostavi formula do Hornove forme.
 
 Prvo, algoritam identifikuje zajedničke jedinice u svim modelima. Ovo su pozicije gde svaki model ima vrednost 1 (tačno).
 
@@ -384,6 +379,7 @@ M = \{(0, 0, 0, 1), (0, 1, 0, 1), (1, 0, 1, 1)\}\text{.}
 \]
 Pretražuju se sve pozicije u modelima da bi se pronašle zajedničke jedinice. U ovom slučaju, samo je pozicija 3 (indeksiranje od 0) zajednička za sve modele. Dakle, $I = \{3\} $.
 
+Identifikacija zajedničkih jedinica osigurava da su ove pozicije prisutne u svim modelima. Na osnovu tih zajedničkih jedinica formira se klauza koja mora biti zadovoljena u svakom modelu u skupu. U ovom slučaju, formira se klauza $x_4$. Ovaj korak garantuje da formula ostaje tačna za sve modele u skupu.
 
 Nakon što su zajedničke jedinice identifikovane, sledeći korak je skraćivanje modela uklanjanjem tih jedinica. Ovo omogućava efikasniju obradu u kasnijim koracima.\\
 
@@ -412,6 +408,9 @@ Nakon što su zajedničke jedinice identifikovane, sledeći korak je skraćivanj
 \[
 M' = \{((0, 0, 0, 1), '000'), ((0, 1, 0, 1), '010'), ((1, 0, 1, 1), '101')\}\text{.}
 \] 
+
+Skraćivanje modela uklanjanjem zajedničkih jedinica omogućava fokusiranje na preostale promenljive, čime se poboljšava efikasnost obrade u sledećim koracima. Ovaj korak pomaže u smanjenju složenosti problema. Kada se zajedničke jedinice uklone iz modela, preostaje manji broj promenljivih i njihovih vrednosti koje treba obraditi. Ovo smanjenje složenosti pojednostavljuje dalje analize i generisanje klauza, jer se sada razmatraju samo promenljive koje nisu jedinice u svim modelima. Time se značajno smanjuje broj varijacija koje treba razmotriti, što poboljšava efikasnost celokupnog algoritma i omogućava brže i preciznije rezultate.
+
 
 Generisanje svih mogućih binarnih varijacija sa ponavljanjem predstavlja sledeći korak. Ove varijacije su osnova za stvaranje formule koja zadovoljava potpun skup modela.\\
 
@@ -442,10 +441,13 @@ Generisanje svih mogućih binarnih varijacija sa ponavljanjem predstavlja slede�
 \end{algorithmic}
 \end{algorithm}
 
-\textbf{Primer:} Na osnovu skraćenih modela \{('000'), ('010'), ('101')\}, generišemo sve moguće klauze. Rezultat će biti:
+\textbf{Primer:} Na osnovu skraćenih modela \{('000'), ('010'), ('101')\} i skupa zajedničkih jedinica, generišemo sve moguće klauze. Prvo, kreiraju se sve moguće binarne varijacije za preostale promenljive, za promenljive koje nisu zajedničke svim modelima. U ovom slučaju, ostaju promenljive $x_1$, $x_2$ i $x_3$, a njihove varijacije su '000', '001', '010', '011', '100', '101', '110', i '111'. Zatim, za svaku varijaciju koja nije prisutna među skraćenim modelima, formira se klauza koja predstavlja negaciju te varijacije. Na primer, varijacija '001' generiše klauzu $(x_1 \vee x_2 \vee \neg x_3)$. Konačno, klauza za zajedničku promenljivu $x_4$ se dodaje formuli, jer ona mora biti prisutna u svim modelima. Rezultat će biti:
 \[
 (x_1 \vee x_2 \vee \neg x_3) \wedge (x_1 \vee \neg x_2 \vee \neg x_3) \wedge (\neg x_1 \vee x_2 \vee x_3) \wedge (\neg x_1 \vee \neg x_2 \vee x_3) \wedge (\neg x_1 \vee \neg x_2 \vee \neg x_3) \wedge x_4
 \]
+
+Generisanje klauza na osnovu binarnih varijacija omogućava da se obuhvate sve moguće varijacije vrednosti promenljivih koje nisu prisutne u modelima. Kada se identifikuju sve binarne varijacije koje nisu zastupljene u modelima, za svaku od njih se formira odgovarajuća klauza. Kreiranjem klauza za te varijacije isključuju se vrednosti koje ne zadovoljavaju modele. Ovaj proces osigurava da formula ostane tačna za sve modele iz skupa i nijedan model van njega.
+
 
 Kao završni korak, koristi se metoda rezolucije za pojednostavljenje formule. Rezolucija je ključna tehnika u logici koja pomaže u rešavanju problema sa logičkim izrazima tako što identifikuje i kombinuje klauze koje se mogu rešiti da bi se smanjio broj klauza i pojednostavila formula. Cilj rezolucije je da se eliminišu konfliktne i redundantne klauze, čime se formula pojednostavljuje i postaje efikasnija za dalje analize.
 
@@ -456,13 +458,13 @@ R(C_1, C_2, L_1, L_2) = \left(C_1 \setminus \{L_1\}\right) \cup \left(C_2 \setmi
 Gde \( R \) predstavlja rezolventu klauzu.\\
 
 
-\begin{lemma}
+\begin{theorem}
 Neka su \( C_1 \) i \( C_2 \) klauze i \( R \) njihova rezolventa. Tada je:
 \[
 \{C_1, C_2\} \equiv \{C_1, C_2, R\}
 \text{.}
 \]
-\end{lemma}
+\end{theorem}
 
 \begin{proof}
 Neka je $I$ interpretacija za koju važi da je $I \models \{C_1, C_2, R\}$. Tada je trivijalno da važi $I \models \{C_1, C_2\}$. Obrnuto, pretpostavimo da je $I$ interpretacija za koju važi $I \models \{C_1, C_2\}$. Neka su $L$ i $\neg L$ literali po kojima se vrši rezolucija klauza $C_1$ i $C_2$, takvi da je $L \in C_1$ i $\neg L \in C_2$. Ako $I \models C_1$, onda mora važiti $I \models C_2 \setminus \{\neg L\}$, pa sledi da $I \models R$. Slično, ako $I \models C_2$, tada $I \models C_1 \setminus \{L\}$, pa $I \models R$.
@@ -535,15 +537,16 @@ Algoritam se sastoji iz nekoliko glavnih faza, čija vremenska složenost se mo�
 
 Na osnovu ove analize, jasno je da algoritam može postati veoma spor za velike skupove modela zbog eksponencijalne složenosti u vezi sa brojem promenljivih i brojem generisanih klauza. Iako je za male skupove modela performansa zadovoljavajuća, optimizacija ili korišćenje efikasnijih tehnika može biti neophodno za rad sa većim skupovima modela.
 
-\chapter{Evaluacija algoritma}
-U ovom poglavlju biće prikazani i analizirani rezultati implementiranih algoritama, uključujući testne podatke koji su korišćeni za evaluaciju i metodologiju njihovog generisanja. Takođe, biće pružen i kratak pregled eksperimentalnog okruženja u kojem je izvršeno testiranje, uključujući hardverske i softverske specifikacije računarskog sistema, kao i specifičnosti koje su uticale na implementaciju i izvršenje algoritma.
-\label{chap:algoritmi}
+\chapter{Implementacija}
+U ovom poglavlju biće prikazani ključni aspekti implementacije algoritama, kao i testni podaci koji su korišćeni za evaluaciju, uključujući i metodologiju njihovog generisanja. Takođe, biće pružen i kratak pregled eksperimentalnog okruženja u kojem je izvršeno testiranje, uključujući hardverske i softverske specifikacije računarskog sistema, kao i specifičnosti koje su uticale na implementaciju i izvršenje algoritma.
 
 \section{Test podaci i njihovo generisanje}
 
-Za evaluaciju performansi razvijenih algoritama, korišćeni su specijalno generisani testni podaci. Testni skupovi su predstavljali različite konfiguracije modela kako bi se obuhvatila različita scenarija i proverila efikasnost algoritama u različitim uslovima. Ukupno je generisano pet testnih skupova podataka: dva mala i tri velika. Ova podela omogućila je detaljnu analizu i upoređivanje različitih pristupa, uključujući metaheuristike i metode grube sile.
+Za evaluaciju performansi razvijenih algoritama, korišćeni su specijalno generisani testni podaci. Testni skupovi su predstavljali različite konfiguracije modela kako bi se obuhvatila različita scenarija i proverila efikasnost algoritama u različitim uslovima. Ukupno je generisano 17 testnih skupova podataka: dva mala i 15 velikih. Ova podela omogućila je detaljnu analizu i upoređivanje različitih pristupa, uključujući metaheuristike i metode grube sile.
 
-Testni skupovi su generisani pomoću algoritma koji pravi modele sa binarnim vrednostima. Algoritam prvo identifikuje sve moguće varijacije sa ponavljanjem vrednosti promenljive, zatim nasumično odabira deo tih varijacija kako bi stvorio specifične skupove podataka. Ovi skupovi su zatim zapisani u tekstualne datoteke za dalju analizu i testiranje.\\\\\\
+Testni skupovi su generisani pomoću algoritma koji pravi modele sa binarnim vrednostima. Algoritam pravi nasumične varijacije sa ponavljanjem vrednosti promenljivih za zadati broj promenljivih $n$ i broj modela $m$, dok broj kreiranih jedinstvenih varijacija ne postane $m$. Ovi skupovi su zatim zapisani u tekstualne datoteke za dalju analizu i testiranje.
+
+\newpage
 
 \textbf{Primer:} U nastavku možemo videti izgled tekstualne datoteke `TestInstances2.txt` (mali skup podataka):
 
@@ -565,14 +568,10 @@ Testni skupovi su generisani pomoću algoritma koji pravi modele sa binarnim vre
 \renewcommand{\algorithmicrequire}{\textbf{Ulaz:}}
 \renewcommand{\algorithmicensure}{\textbf{Izlaz:}}
 \begin{algorithmic}[1]
-\REQUIRE Broj promenljivih $n$
+\REQUIRE Broj promenljivih $n$, broj modela $m$
 \ENSURE Lista generisanih modela $L$ 
 \STATE $L \gets \emptyset$
-\STATE $max\_size \gets 2^n$
-\STATE $min\_size \gets 3$
-\STATE $num \gets \text{random}(min\_size, 
- max\_size)$
-\WHILE{$|L| < num$}
+\WHILE{$|L| < m$}
     \STATE \textit{variation} $\gets [\text{random}(0, 1) \text{ for } i \text{ in } \text{range}(n)]$
     \STATE $L \gets L \cup \{variation\}$
 \ENDWHILE
@@ -580,12 +579,12 @@ Testni skupovi su generisani pomoću algoritma koji pravi modele sa binarnim vre
 \end{algorithmic}
 \end{algorithm}
 
-Za male testne skupove korišćeni su modeli sa četiri promenljive. Prvi mali skup uključivao je 4 valuacije u modelu,dok je drugi je imao 10 valuacija. Ovi mali skupovi su korišćeni za testiranje obe metaheuristike kao i algoritma grube sile. Testiranje na ovim skupovima omogućilo je poređenje tačnosti i efikasnosti metaheurističkih metoda u odnosu na klasičnu metodu grube sile. 
+Za male testne skupove korišćeni su modeli sa četiri promenljive. Prvi mali skup uključivao je 4 valuacije u modelu, dok je drugi je imao 10 valuacija. Ovi mali skupovi su korišćeni za testiranje obe metaheuristike kao i algoritma grube sile. Testiranje na ovim skupovima omogućilo je poređenje tačnosti i efikasnosti metaheurističkih metoda u odnosu na klasičnu metodu grube sile. 
 
 Osim testiranja metaheuristika i metode grube sile, na ovim malim skupovima testirano je i generisanje Hornove formule iz skupa modela. Iako generisanje Hornove formule nije bio primarni cilj istraživanja, uključivanje ove faze omogućilo je procenu efikasnosti i tačnosti algoritma za generisanje formula. Ova analiza pružila je uvid u dodatne aspekte performansi algoritama, pokazujući kako dobro algoritam može transformisati skup modela u odgovarajuću Hornovu formulu. Nažalost, zbog velike vremenske složenosti ovog algoritma, nije bilo moguće testirati njegov rad na velikim skupovima podataka.
 
 
-Na velikim testnim skupovima, koji su uključivali modele sa osam i devet promenljivih, testirane su isključivo metaheuristike. Ovi veliki skupovi su uključivali 93 valuacija za jedan skup, 330 valuacija za drugi i 221 za treći skup. Testiranje ovih skupova sa metodom grube sile bilo je nepraktično zbog velike vremenske složenosti algoritma, što je rezultiralo predugim vremenima izvršavanja. 
+Na velikim testnim skupovima, koji su uključivali modele sa 5, 6, 7, 8, 9 i 10 promenljivih, testirane su isključivo metaheuristike. Ovi veliki skupovi su sadržavali od 2 do 3 različita broja valuacija za svaki broj promenljivih. Testiranje ovih skupova sa metodom grube sile bilo je nepraktično zbog velike vremenske složenosti algoritma, što je rezultiralo predugim vremenima izvršavanja. 
 
 Kao ilustraciju, radi boljeg razumevanja testnih podataka, razmotrićemo mali testni skup sa četiri promenljive. U ovom skupu, svaki model je predstavljen kao binarna sekvenca od četiri vrednosti, gde svaka vrednost može biti 0 ili 1. Evo primera skupa:
 
@@ -633,8 +632,8 @@ Korišćene su sledeće biblioteke:
     \item \textbf{Matplotlib:} Omogućava pravljenje grafičkog prikaza i vizualizacije podataka.
 \end{itemize}
 
-\section{Rezultati eksperimenta}
-U ovom delu biće prikazani eksperimentalni rezultati izvršavanja algoritama. Prvo će biti analizirani rezultati za male testne instance, a zatim za velike testne instance.
+\chapter{Evaluacija algoritama}
+U ovom poglavlju biće prikazani eksperimentalni rezultati izvršavanja algoritama. Prvo će biti analizirani rezultati za male testne instance, a zatim za velike testne instance.
 
 Mali testni skupovi omogućavaju detaljno ispitivanje performansi algoritama u kontrolisanim uslovima. Ovi testovi su korisni za proveru tačnosti i pouzdanosti implementacije algoritama na jednostavnim i manje zahtevnim primerima. 
 
@@ -658,9 +657,10 @@ Na slikama \ref{fig:slika1} i \ref{fig:slika2} prikazani su rezultati rada algor
 
 Rezultati testiranja malih testnih skupova su u skladu sa očekivanjima. Rezultati pokazuju da su algoritmi uspeli da pronađu maksimalna Hornova jezgra kako je predviđeno, potvrđujući tačnost i pouzdanost njihovih implementacija. Ovi testovi pružaju osnovu za analizu performansi na složenijim i većim testnim skupovima.
 
-Prethodne studije i teorijska očekivanja sugerišu da bi VNS algoritam trebao da nadmaši pohlepnu pretragu u pronalaženju najvećih Hornovih jezgara. Očekuje se da VNS, zbog svoje sposobnosti da koristi lokalne pretrage i promenljivu strukturu susedstva, pronađe optimalnija rešenja u poređenju sa pohlepnom pretragom. Pohlepna pretraga, iako brza i jednostavna, može praviti kompromise u kvalitetu rešenja zbog svoje determinističke prirode i sklonosti da se zaglavi u lokalnim optimumima. Teorijski, pohlepna pretraga je pogodna za situacije kada je brzina kritični faktor, ali njena sposobnost da pronađe globalno optimalna rešenja je ograničena.
+Prethodne studije i teorijska očekivanja sugerišu da bi VNS algoritam trebalo da nadmaši pohlepnu pretragu u pronalaženju najvećih Hornovih jezgara. Očekuje se da VNS, zbog svoje sposobnosti da koristi lokalne pretrage i promenljivu strukturu susedstva, pronađe bolja rešenja u poređenju sa pohlepnom pretragom. Pohlepna pretraga, iako brza i jednostavna, može praviti kompromise u kvalitetu rešenja zbog svoje determinističke prirode i sklonosti da se zaglavi u lokalnim optimumima. Teorijski, pohlepna pretraga je pogodna za situacije kada je brzina kritični faktor, ali njena sposobnost da pronađe globalno optimalna rešenja je ograničena.
 
-U nastavku su prikazani rezultati testiranja algoritma VNSa i pohlepne pretrage na tri velika testna skupa. Na slikama \ref{fig:test1_greedy_performance}, \ref{fig:test1_vns_performance}, \ref{fig:test2_greedy_performance}, \ref{fig:test2_vns_performance}, \ref{fig:test3_greedy_performance}, i \ref{fig:test3_vns_performance} mogu se videti stubasti dijagrami koji prikazuju veličinu Hornovog jezgra za 20 pokretanja ovih algoritama, kao i promenu veličine jezgra tokom iteracija jednog pokretanja algoritma. Svaka slika omogućava uvid u ova dva aspekta performansi algoritama, varijacije u veličini jezgra između različitih pokretanja i dinamiku veličine jezgra kroz iteracije. Tabela \ref{tab:test_results} sadrži detaljne rezultate performansi. Ova tabela prikazuje redni broj testnog skupa ($M$), broj modela u testnom skupu ($|M|$), prosečno vreme po pokretanju algoritma ($T\_avg$) i ukupno vreme izvršavanja svih 20 pokretanja algoritma ($T\_tot)$, kao i prosečnu veličinu najboljeg Hornovog jezgra za sva pokretanja algoritma ($V\_avg$) i veličinu najboljeg jezgra pronađenog tokom svih pokretanja ($V\_tot$). Veličina jezgra predstavlja broj modela uključenih u to jezgru.
+U nastavku su prikazani rezultati testiranja algoritma VNSa i pohlepne pretrage na tri odabrana velika testna skupa. Na slikama \ref{fig:test1_greedy_performance}, \ref{fig:test1_vns_performance}, \ref{fig:test2_greedy_performance}, \ref{fig:test2_vns_performance}, \ref{fig:test3_greedy_performance}, i \ref{fig:test3_vns_performance} mogu se videti stubasti dijagrami koji prikazuju veličinu Hornovog jezgra za 20 pokretanja ovih algoritama, kao i promenu veličine jezgra tokom iteracija jednog pokretanja algoritma. Svaka slika omogućava uvid u ova dva aspekta performansi algoritama, varijacije u veličini jezgra između različitih pokretanja i dinamiku veličine jezgra kroz iteracije. Tabela \ref{tab:test_results} sadrži detaljne rezultate performansi. Ova tabela prikazuje redni broj testnog skupa ($M$), broj promenljivih ($N$), broj modela u testnom skupu ($|M|$), prosečno vreme po pokretanju algoritma ($T_{avg}$) i ukupno vreme izvršavanja svih 20 pokretanja algoritma ($T_{tot})$, kao i prosečnu veličinu najboljeg Hornovog jezgra za sva pokretanja algoritma ($V_{avg}$) i veličinu najboljeg jezgra pronađenog tokom svih pokretanja ($V_{tot}$). Veličina jezgra predstavlja broj modela uključenih u to jezgru.
+\newpage
 
 
 \begin{figure}[H]
@@ -672,7 +672,7 @@ U nastavku su prikazani rezultati testiranja algoritma VNSa i pohlepne pretrage 
     \subfigure{
         \includegraphics[width=0.45\textwidth]{test1_greedy_performance2.png}
     }
-    \caption{Grafik performansi pohlepne pretrage na prvom velikom testnom skupu}
+    \caption{Grafik performansi pohlepne pretrage na testnom skupu sa 8 promenljivih i 100 modela}
     \label{fig:test1_greedy_performance}
 \end{figure}
 
@@ -686,7 +686,7 @@ U nastavku su prikazani rezultati testiranja algoritma VNSa i pohlepne pretrage 
     \subfigure{
         \includegraphics[width=0.45\textwidth]{test1_vns_performance2.png}
     }
-    \caption{Grafik performansi VNSa na prvom velikom testnom skupu}
+    \caption{Grafik performansi VNSa na testnom skupu sa 8 promenljivih i 100 modela}
     \label{fig:test1_vns_performance}
 \end{figure}
 
@@ -701,7 +701,7 @@ U nastavku su prikazani rezultati testiranja algoritma VNSa i pohlepne pretrage 
     \subfigure{
         \includegraphics[width=0.45\textwidth]{test2_greedy_performance2.png}
     }
-    \caption{Grafik performansi pohlepne pretrage na drugom velikom testnom skupu}
+    \caption{Grafik performansi pohlepne pretrage na testnom skupu sa 8 promenljivih i 200 modela}
     \label{fig:test2_greedy_performance}
 \end{figure}
 
@@ -716,7 +716,7 @@ U nastavku su prikazani rezultati testiranja algoritma VNSa i pohlepne pretrage 
     \subfigure{
         \includegraphics[width=0.45\textwidth]{test2_vns_performance2.png}
     }
-    \caption{Grafik performansi VNSa na drugom velikom testnom skupu}
+    \caption{Grafik performansi VNSa na testnom skupu sa 8 promenljivih i 200 modela}
     \label{fig:test2_vns_performance}
 \end{figure}
 
@@ -731,7 +731,7 @@ U nastavku su prikazani rezultati testiranja algoritma VNSa i pohlepne pretrage 
     \subfigure{
         \includegraphics[width=0.45\textwidth]{test3_greedy_performance2.png}
     }
-    \caption{Grafik performansi pohlepne pretrage na trećem velikom testnom skupu}
+    \caption{Grafik performansi pohlepne pretrage na testnom skupu sa 9 promenljivih i 150 modela}
     \label{fig:test3_greedy_performance}
 \end{figure}
 
@@ -746,7 +746,7 @@ U nastavku su prikazani rezultati testiranja algoritma VNSa i pohlepne pretrage 
     \subfigure{
         \includegraphics[width=0.45\textwidth]{test3_vns_performance2.png}
     }
-    \caption{Grafik performansi VNSa na trećem velikom testnom skupu}
+    \caption{Grafik performansi VNSa na testnom skupu sa 9 promenljivih i 150 modela}
     \label{fig:test3_vns_performance}
 \end{figure}
 
@@ -756,23 +756,32 @@ U nastavku su prikazani rezultati testiranja algoritma VNSa i pohlepne pretrage 
 \begin{table}[H]
 \centering
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{|c|c|cccc|cccc|}
+\begin{tabular}{|r|r|r|rrrr|rrrr|}
 \hline
-\multirow{2}{*}{\textbf{M}} & \multirow{2}{*}{\textbf{|M|}} & \multicolumn{4}{c|}{\textbf{Pohlepna pretraga}} & \multicolumn{4}{c|}{\textbf{VNS}} \\ \cline{3-10} 
- &  & \multicolumn{1}{c|}{\textbf{T\_avg}} & \multicolumn{1}{c|}{\textbf{T\_tot}} & \multicolumn{1}{c|}{\textbf{V\_avg}} & \textbf{V\_tot} & \multicolumn{1}{c|}{\textbf{T\_avg}} & \multicolumn{1}{c|}
-{\textbf{T\_tot}} & \multicolumn{1}{c|}{\textbf{V\_avg}} & \textbf{V\_tot} \\ \hline
-Skup 1 & 93 & \multicolumn{1}{c|}{0.005} & \multicolumn{1}{c|}{0.091} & \multicolumn{1}{c|}{9.95} & 17 & \multicolumn{1}{c|}{0.075} & \multicolumn{1}{c|}{1.5} & \multicolumn{1}{c|}{10.85} & 20 \\ \hline
-Skup 2 & 330 & \multicolumn{1}{c|}{0.069} & \multicolumn{1}{c|}{1.377} & \multicolumn{1}{c|}{29} & 50 & \multicolumn{1}{c|}{1.056} & \multicolumn{1}{c|}{21.122} & \multicolumn{1}{c|}{37.05} & 61 \\ \hline
-Skup 3 & 221 & \multicolumn{1}{c|}{0.024} & \multicolumn{1}{c|}{0.472} & \multicolumn{1}{c|}{19.05} & 30 & \multicolumn{1}{c|}{0.467} & \multicolumn{1}{c|}{9.335} & \multicolumn{1}{c|}{21.7} & 35 \\ \hline
+\multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{M}}} & \multicolumn{1}{c|}{\multirow{2}{*}{\textbf{N}}} & \multicolumn{1}{c|}{\multirow{2}{*}{\textbf{|M|}}} & \multicolumn{4}{c|}{\textbf{Pohlepna pretraga}} & \multicolumn{4}{c|}{\textbf{VNS}} \\ \cline{4-11} 
+\multicolumn{1}{|c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{\textbf{T_{avg}}} & \multicolumn{1}{c|}{\textbf{T_{tot}}} & \multicolumn{1}{c|}{\textbf{V_{avg}}} & \multicolumn{1}{c|}{\textbf{V_{tot}}} & \multicolumn{1}{c|}{\textbf{T_{avg}}} & \multicolumn{1}{c|}{\textbf{T_{tot}}} & \multicolumn{1}{c|}{\textbf{V_{avg}}} & \multicolumn{1}{c|}{\textbf{V_{tot}}} \\ \hline
+Skup 1 & 5 & 15 & \multicolumn{1}{r|}{0.001} & \multicolumn{1}{r|}{0.010} & \multicolumn{1}{r|}{5.85} & 7 & \multicolumn{1}{r|}{0.007} & \multicolumn{1}{r|}{0.143} & \multicolumn{1}{r|}{6.60} & 7 \\ \hline
+Skup 2 & 5 & 25 & \multicolumn{1}{r|}{0.002} & \multicolumn{1}{r|}{0.031} & \multicolumn{1}{r|}{16.75} & 18 & \multicolumn{1}{r|}{0.046} & \multicolumn{1}{r|}{0.920} & \multicolumn{1}{r|}{17.55} & 18 \\ \hline
+Skup 3 & 6 & 30 & \multicolumn{1}{r|}{0.001} & \multicolumn{1}{r|}{0.015} & \multicolumn{1}{r|}{8.25} & 10 & \multicolumn{1}{r|}{0.022} & \multicolumn{1}{r|}{0.431} & \multicolumn{1}{r|}{9.35} & 10 \\ \hline
+Skup 4 & 6 & 50 & \multicolumn{1}{r|}{0.003} & \multicolumn{1}{r|}{0.056} & \multicolumn{1}{r|}{19.80} & 24 & \multicolumn{1}{r|}{0.146} & \multicolumn{1}{r|}{2.914} & \multicolumn{1}{r|}{21.30} & 24 \\ \hline
+Skup 5 & 7 & 60 & \multicolumn{1}{r|}{0.001} & \multicolumn{1}{r|}{0.029} & \multicolumn{1}{r|}{11.40} & 17 & \multicolumn{1}{r|}{0.128} & \multicolumn{1}{r|}{2.566} & \multicolumn{1}{r|}{16.75} & 22 \\ \hline
+Skup 6 & 7 & 100 & \multicolumn{1}{r|}{0.008} & \multicolumn{1}{r|}{0.166} & \multicolumn{1}{r|}{25.55} & 34 & \multicolumn{1}{r|}{0.833} & \multicolumn{1}{r|}{16.665} & \multicolumn{1}{r|}{31.40} & 37 \\ \hline
+Skup 7 & 8 & 50 & \multicolumn{1}{r|}{0.001} & \multicolumn{1}{r|}{0.012} & \multicolumn{1}{r|}{5.40} & 8 & \multicolumn{1}{r|}{0.043} & \multicolumn{1}{r|}{0.861} & \multicolumn{1}{r|}{8.75} & 10 \\ \hline
+Skup 8 & 8 & 100 & \multicolumn{1}{r|}{0.002} & \multicolumn{1}{r|}{0.044} & \multicolumn{1}{r|}{11.85} & 17 & \multicolumn{1}{r|}{0.218} & \multicolumn{1}{r|}{4.351} & \multicolumn{1}{r|}{13.30} & 17 \\ \hline
+Skup 9 & 8 & 200 & \multicolumn{1}{r|}{0.045} & \multicolumn{1}{r|}{0.896} & \multicolumn{1}{r|}{39.20} & 50 & \multicolumn{1}{r|}{4.646} & \multicolumn{1}{r|}{92.920} & \multicolumn{1}{r|}{41.95} & 54 \\ \hline
+Skup 10 & 9 & 75 & \multicolumn{1}{r|}{0.001} & \multicolumn{1}{r|}{0.016} & \multicolumn{1}{r|}{5.50} & 8 & \multicolumn{1}{r|}{0.049} & \multicolumn{1}{r|}{0.974} & \multicolumn{1}{r|}{6.25} & 8 \\ \hline
+Skup 11 & 9 & 150 & \multicolumn{1}{r|}{0.004} & \multicolumn{1}{r|}{0.085} & \multicolumn{1}{r|}{13.20} & 18 & \multicolumn{1}{r|}{0.535} & \multicolumn{1}{r|}{10.703} & \multicolumn{1}{r|}{17.90} & 29 \\ \hline
+Slup 12 & 9 & 225 & \multicolumn{1}{r|}{0.030} & \multicolumn{1}{r|}{0.600} & \multicolumn{1}{r|}{28.40} & 35 & \multicolumn{1}{r|}{5.008} & \multicolumn{1}{r|}{100.158} & \multicolumn{1}{r|}{33.60} & 40 \\ \hline
+Skup 13 & 10 & 100 & \multicolumn{1}{r|}{0.001} & \multicolumn{1}{r|}{0.024} & \multicolumn{1}{r|}{6.10} & 12 & \multicolumn{1}{r|}{0.134} & \multicolumn{1}{r|}{2.675} & \multicolumn{1}{r|}{9.75} & 13 \\ \hline
+Skup 14 & 10 & 200 & \multicolumn{1}{r|}{0.006} & \multicolumn{1}{r|}{0.116} & \multicolumn{1}{r|}{12.20} & 19 & \multicolumn{1}{r|}{0.684} & \multicolumn{1}{r|}{13.673} & \multicolumn{1}{r|}{14.00} & 20 \\ \hline
+Skup 15 & 10 & 300 & \multicolumn{1}{r|}{0.008} & \multicolumn{1}{r|}{0.158} & \multicolumn{1}{r|}{13.20} & 18 & \multicolumn{1}{r|}{1.409} & \multicolumn{1}{r|}{28.189} & \multicolumn{1}{r|}{17.80} & 22 \\ \hline
 \end{tabular}%
 }
-\caption{Rezultati na tri velika testna skupa}
+\caption{Rezultati na svim velikim testnim skupovima}
 \label{tab:test_results}
 \end{table}
 
-
-
-Rezultati testiranja velikih testnih skupova potvrđuju prethodna očekivanja. VNS algoritam zaista nadmašuje pohlepnu pretragu u pronalaženju većih Hornovih jezgara. Na primer, u testnom skupu 2, VNS je pronašao jezgro veličine 61, dok je pohlepna pretraga pronašla jezgro veličine 50. Ovi rezultati potvrđuju da VNS koristi svoje napredne tehnike pretrage kako bi pronašao globalno bolja rešenja.
+Rezultati testiranja velikih testnih skupova potvrđuju prethodna očekivanja. VNS algoritam zaista nadmašuje pohlepnu pretragu u pronalaženju većih Hornovih jezgara. Na primer, u testnom skupu 14, VNS je pronašao jezgro veličine 40, dok je pohlepna pretraga pronašla jezgro veličine 35. Ovi rezultati potvrđuju da VNS koristi svoje napredne tehnike pretrage kako bi pronašao globalno bolja rešenja.
 
 Takođe, pohlepna pretraga pokazuje brže vreme izvršavanja, ali često sa većim oscilacijama u kvalitetu rešenja tokom različitih iteracija. Ove oscilacije ukazuju na njenu sklonost da se zaglavi u lokalnim optimumima, što je u skladu sa teorijskim očekivanjima. VNS se, s druge strane, pokazuje kao robustan pristup u pronalaženju rešenja koja pohlepna pretraga može prevideti, što potvrđuje njegovu prednost u preciznosti i stabilnosti rešenja.
 
@@ -795,7 +804,7 @@ Za budući rad, preporučuje se dalja optimizacija postojećih metaheurističkih
 
 Pored toga, uvođenje novih evaluacijskih kriterijuma i testiranje na različitim vrstama instanci može doprineti razumevanju ograničenja i prednosti trenutnih metoda. Takođe, istraživanje mogućnosti primene razvijenih algoritama u drugim sličnim problemima i oblastima može otvoriti nove pravce istraživanja i primene.
 
-Zaključno, ovaj rad pruža značajan doprinos razumevanju i primeni metaheurističkih tehnika za rešavanje kompleksnih problema, kao što je problem pronalaženja maksimalnog Hornovog jezgra. Istraživanje je omogućilo uvid u efikasnost različitih metoda i njihove prednosti i ograničenja. Takođe, pružena su osnova i smernice za buduća istraživanja i unapređenja, otvarajući prostor za dalje inovacije i optimizacije u ovoj oblasti.
+Zaključno, ovaj rad pruža koristan doprinos razumevanju i primeni metaheurističkih tehnika za rešavanje kompleksnih problema, kao što je problem pronalaženja maksimalnog Hornovog jezgra. Istraživanje je omogućilo uvid u efikasnost različitih metoda i njihove prednosti i ograničenja. Takođe, pružena su osnova i smernice za buduća istraživanja i unapređenja, otvarajući prostor za dalje inovacije i optimizacije u ovoj oblasti.
 
 % \lstinputlisting[caption=Sample Code Listing C++, label={lst:listing-cpp}, language=C++]{./code1.cpp}
 % ------------------------------------------------------------------------------
