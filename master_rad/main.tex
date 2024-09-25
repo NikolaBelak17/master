@@ -225,7 +225,7 @@ U ovom poglavlju biće dat pregled sledeće dve metaheuristike koje su koršćen
   \item pohlepna pretraga (\textit{eng.} greedy search);
   \item metoda promenljivih okolina (\textit{eng.} variable neighborhood search).
 \end{enumerate}
-Osim ove dve metaheuristike, biće opisan i algoritam polinomske vremenske složenosti generisanja jednog Hornovog jezgra, koji je pomenut u prethodnom poglavlju, kao i algoritam za generisanje Hornove formule iz skupa modela koje ta formula zadovoljava.
+Osim ove dve metaheuristike, biće opisan i algoritam polinomske vremenske složenosti generisanja jednog Hornovog jezgra, koji je pomenut u prethodnom poglavlju, algoritam za generisanje Hornove formule iz skupa modela koje ta formula zadovoljava, kao i testni podaci koji su korišćeni za evaluaciju, uključujući i metodologiju njihovog generisanja..
 
 \section{Algoritam pronalaska Hornovog jezgra}
 
@@ -535,16 +535,11 @@ Algoritam se sastoji iz nekoliko glavnih faza, čija vremenska složenost se mo�
 
 Na osnovu ove analize, jasno je da algoritam može postati veoma spor za velike skupove modela zbog eksponencijalne složenosti u vezi sa brojem promenljivih i brojem generisanih klauza. Iako je za male skupove modela performansa zadovoljavajuća, optimizacija ili korišćenje efikasnijih tehnika može biti neophodno za rad sa većim skupovima modela.
 
-\chapter{Implementacija}
-U ovom poglavlju biće prikazani ključni aspekti implementacije algoritama, kao i testni podaci koji su korišćeni za evaluaciju, uključujući i metodologiju njihovog generisanja. Takođe, biće pružen i kratak pregled eksperimentalnog okruženja u kojem je izvršeno testiranje, uključujući hardverske i softverske specifikacije računarskog sistema, kao i specifičnosti koje su uticale na implementaciju i izvršenje algoritma.
-
 \section{Test podaci i njihovo generisanje}
 
-Za evaluaciju performansi razvijenih algoritama, korišćeni su specijalno generisani testni podaci. Testni skupovi su predstavljali različite konfiguracije modela kako bi se obuhvatila različita scenarija i proverila efikasnost algoritama u različitim uslovima. Ukupno je generisano 17 testnih skupova podataka: dva mala i 15 velikih. Ova podela omogućila je detaljnu analizu i upoređivanje različitih pristupa, uključujući metaheuristike i metode grube sile.
+Za evaluaciju performansi razvijenih algoritama, korišćeni su specijalno generisani testni podaci. Testni skupovi su predstavljali različite konfiguracije modela kako bi se obuhvatila različita scenarija i proverila efikasnost algoritama u različitim uslovima. 
 
 Testni skupovi su generisani pomoću algoritma koji pravi modele sa binarnim vrednostima. Algoritam pravi nasumične varijacije sa ponavljanjem vrednosti promenljivih za zadati broj promenljivih $n$ i broj modela $m$, dok broj kreiranih jedinstvenih varijacija ne postane $m$. Ovi skupovi su zatim zapisani u tekstualne datoteke za dalju analizu i testiranje.
-
-\newpage
 
 \textbf{Primer:} U nastavku možemo videti izgled tekstualne datoteke `TestInstances2.txt` (mali skup podataka):
 
@@ -581,7 +576,6 @@ Za male testne skupove korišćeni su modeli sa četiri promenljive. Prvi mali s
 
 Osim testiranja metaheuristika i metode grube sile, na ovim malim skupovima testirano je i generisanje Hornove formule iz skupa modela. Iako generisanje Hornove formule nije bio primarni cilj istraživanja, uključivanje ove faze omogućilo je procenu efikasnosti i tačnosti algoritma za generisanje formula. Ova analiza pružila je uvid u dodatne aspekte performansi algoritama, pokazujući kako dobro algoritam može transformisati skup modela u odgovarajuću Hornovu formulu. Nažalost, zbog velike vremenske složenosti ovog algoritma, nije bilo moguće testirati njegov rad na velikim skupovima podataka.
 
-
 Na velikim testnim skupovima, koji su uključivali modele sa 5, 6, 7, 8, 9 i 10 promenljivih, testirane su isključivo metaheuristike. Ovi veliki skupovi su sadržavali od 2 do 3 različita broja valuacija za svaki broj promenljivih. Testiranje ovih skupova sa metodom grube sile bilo je nepraktično zbog velike vremenske složenosti algoritma, što je rezultiralo predugim vremenima izvršavanja. 
 
 Kao ilustraciju, radi boljeg razumevanja testnih podataka, razmotrićemo mali testni skup sa četiri promenljive. U ovom skupu, svaki model je predstavljen kao binarna sekvenca od četiri vrednosti, gde svaka vrednost može biti 0 ili 1. Evo primera skupa:
@@ -596,6 +590,11 @@ U ovom primeru, svaki red predstavlja jedan model sa četiri promenljive. Svaki 
 
 
 Ovi testni skupovi i metodologija generisanja podataka omogućili su detaljnu analizu i upoređivanje performansi različitih algoritamskih pristupa. Proces generisanja podataka, zajedno sa evaluacijom rezultata na različitim skupovima, omogućio je dobijanje uvida u efikasnost i tačnost razvijenih algoritama, kao i identifikaciju mogućih područja za unapređenje.
+
+\chapter{Implementacija}
+U ovom poglavlju biće prikazani ključni aspekti implementacije algoritama. Takođe, biće pružen i kratak pregled eksperimentalnog okruženja u kojem je izvršeno testiranje, uključujući hardverske i softverske specifikacije računarskog sistema, kao i specifičnosti koje su uticale na implementaciju i izvršenje algoritma.
+
+
 
 \section{Eksperimentalno okruženje}
 Svi rezultati dobijeni u ovom istraživanju generisani su i analizirani u okruženju koje koristi \textit{Python} programski jezik i \textit{Jupyter notebook} za razvoj i testiranje. Eksperimentalno okruženje je postavljeno na računaru sa sledećim specifikacijama:
@@ -631,7 +630,7 @@ Korišćene su sledeće biblioteke:
 \section{Implementacija algoritama}
 U ovom delu biće detaljno opisana implementacija algoritama korišćenih u istraživanju. Fokus će biti na metodi grube sile, metodi promenljive okoline, pohlepnoj pretrazi, kao i algoritmu za generisanje Hornovih formula.
 
-Sva tri navedena algoritma za rešavanje problema optimizacije koriste metodu $is\_horn\_theory$, koja je ključna za proveru da li trenutni skup valuacija predstavlja Hornovu teoriju. Ova metoda proverava da li je zadata valuacija u početnom skupu modela:
+Sva tri navedena algoritma za rešavanje problema optimizacije koriste metodu \texttt{is\_horn\_theory}, koja je ključna za proveru da li trenutni skup valuacija predstavlja Hornovu teoriju. Ova metoda proverava da li je zadata valuacija u početnom skupu modela:
 
 \begin{lstlisting}[language=Python]
 def is_horn_theory(assignment, M):
@@ -641,13 +640,11 @@ def is_horn_theory(assignment, M):
 \end{lstlisting}
 \vspace{0.5cm}
 
-Implementacija metode grube sile koristi jednostavan pristup isprobavanja svih mogućih rešenja. Na početku se $horn\_core$ postavlja na praznu listu, u koju će biti smešteno trenutno najbolje jezgro. Zatim se prolazi kroz sve moguće varijacije modela iz početnog skupa za različite veličine, od 1 do broj modela u skupu, koristeći funkciju $combinations$ iz biblioteke $itertools$. Za svaku varijaciju se proverava da li rešenje "konjunkcije" svih mogućih parova valuacija pripada početnom skupu, korišćenjem  metode $is\_horn\_theory$. Ako je varijacija validna Hornova teorija i duža od do tada najboljeg jezgra, ažurira se $horn\_core$. Na kraju, funkcija vraća najbolje pronađeno jezgro.
+Implementacija metode grube sile koristi jednostavan pristup isprobavanja svih mogućih rešenja. Na početku se \texttt{horn\_core} postavlja na praznu listu, u koju će biti smešteno trenutno najbolje jezgro. Zatim se prolazi kroz sve moguće varijacije modela iz početnog skupa za različite veličine, od 1 do broj modela u skupu, koristeći funkciju \texttt{combinations} iz biblioteke \texttt{itertools}. Za svaku varijaciju se proverava da li rešenje bitovske konjunkcije svih mogućih parova valuacija pripada početnom skupu, korišćenjem  metode \texttt{is\_horn\_theory}. Ako je varijacija validna Hornova teorija i duža od do tada najboljeg jezgra, ažurira se \texttt{horn\_core}. Na kraju, funkcija vraća najbolje pronađeno jezgro.
 
-Implementacija algortima pohlepne pretrage iterativno gradi rešenje, dodajući valuacije koje proširuju trenutni skup, dokle god taj prošireni skup ostaje validna Hornova teorija. Algoritam započinje tako što se inicijalizuje prazan skup $horn\_core$ koji predstavlja trenutno jezgro i skup $used\_assignment$ u koji će biti smeštene već korišćene valuacije. Zatim, slučajnim odabirom iz početnog skupa modea, korišćenjem funkcije $choice$ iz biblioteke $random$, se bira početna valuacija koja se dodaje u oba skupa.
+Implementacija algortima pohlepne pretrage iterativno gradi rešenje, dodajući valuacije koje proširuju trenutni skup, dokle god taj prošireni skup ostaje validna Hornova teorija. Algoritam započinje tako što se inicijalizuje prazan skup \texttt{horn\_core} koji predstavlja trenutno jezgro i skup \texttt{used\_assignment} u koji će biti smeštene već korišćene valuacije. Zatim, slučajnim odabirom iz početnog skupa modea, korišćenjem funkcije \texttt{choice} iz biblioteke \texttt{random}, se bira početna valuacija koja se dodaje u oba skupa.
 
-\newpage
-
-U glavnoj petlji algoritma, dokle god nisu iskorišćene sve dostupne valuacije, slučajno se bira nova valuacija koja nije korišćena. Ova nova valuacija se privremeno dodaje u $horn\_core$, formirajući novi kandidat za jezgro $new\_core$:
+U glavnoj petlji algoritma, dokle god nisu iskorišćene sve dostupne valuacije, slučajno se bira nova valuacija koja nije korišćena. Ova nova valuacija se privremeno dodaje u \texttt{horn\_core}, formirajući novi kandidat za jezgro \texttt{new\_core}:
 
 \begin{lstlisting}[language=Python]
 for _ in range(len(M)):
@@ -662,7 +659,7 @@ for _ in range(len(M)):
 \end{lstlisting}
 \vspace{0.5cm}
 
-Zatim, za svaki par valuacija u tom novom kandidatu se izračunava "konjunkcija". Ovo se postiže korišćenjem funkcija $zip$ i $all$ koje su deo standardne $Python$ biblioteke. Funkcija $zip$ iterira kroz oba modela paralelno, spajajući odgovarajuće promenljive, dok $all$ proverava da li su sve promenljive istovremeno istinite u oba modela. Rezultat ove operacije je nova valuacija koja se konvertuje u binarni format:
+Zatim, za svaki par valuacija u tom novom kandidatu se izračunava bitovska konjunkcija. Ovo se postiže korišćenjem funkcija \texttt{zip} i \texttt{all} koje su deo standardne $Python$ biblioteke. Funkcija \texttt{zip} iterira kroz oba modela paralelno, spajajući odgovarajuće promenljive, dok \texttt{all} proverava da li su sve promenljive istovremeno istinite u oba modela. Rezultat ove operacije je nova valuacija koja se konvertuje u binarni format:
 
 \begin{lstlisting}[language=Python]
 for pair in combinations(new_core, 2):
@@ -671,13 +668,13 @@ for pair in combinations(new_core, 2):
 \end{lstlisting}
 \vspace{0.5cm}
 
-Ako bilo koje rešenje "konjunkcije" ne zadovoljava uslov da pripada početnom skupu modela, što se proverava korišćenjem funkcije $is\_horn\_theory$, kandidat za jezgro se odbacuje. Ukoliko sve valuacije zadovolje uslov, novi kandidat postaje novo jezgro $horn\_core$.
+Ako bilo koje rešenje bitovske konjunkcije ne zadovoljava uslov da pripada početnom skupu modela, što se proverava korišćenjem funkcije \texttt{is\_horn\_theory}, kandidat za jezgro se odbacuje. Ukoliko sve valuacije zadovolje uslov, novi kandidat postaje novo jezgro \texttt{horn\_core}.
 
-Tokom svake iteracije, dužina trenutnog jezgra se beleži u listi $cores$, koja prati razvoj jezgra kroz algoritam. Na kraju, algoritam vraća konačno Hornovo jezgro $horn\_core$ i listu $cores$ koja prikazuje rast jezgra tokom pretrage.
+Tokom svake iteracije, dužina trenutnog jezgra se beleži u listi \texttt{cores}, koja prati razvoj jezgra kroz algoritam. Na kraju, algoritam vraća konačno Hornovo jezgro \texttt{horn\_core} i listu \texttt{cores} koja prikazuje rast jezgra tokom pretrage.
 
-Metoda promenjlivih okolina je implementirana u nekoliko ključnih koraka za optimizaciju rešenja. Algoritam započinje inicijalizacijom početnog Hornovog jezgra $horn\_core$, koje se inicijalno postavlja na prazan skup, a zatim slučajnim odabirom iz početnog skupa modela bira valuacija koja se dodaje u jezgro. Algoritam se oslanja na dve osnovne funkcije $shaking$ i $local\_search$.
+Metoda promenjlivih okolina je implementirana u nekoliko ključnih koraka za optimizaciju rešenja. Algoritam započinje inicijalizacijom početnog Hornovog jezgra \texttt{horn\_core}, koje se inicijalno postavlja na prazan skup, a zatim slučajnim odabirom iz početnog skupa modela bira valuacija koja se dodaje u jezgro. Algoritam se oslanja na dve osnovne funkcije \texttt{shaking} i \texttt{local\_search}.
 
-Funkcija $shaking$ se koristi za generisanje izmenjenog jezgra uklanjanjem slučajno izabrane valuacije iz trenutnog jezgra:
+Funkcija \texttt{shaking} se koristi za generisanje izmenjenog jezgra uklanjanjem slučajno izabrane valuacije iz trenutnog jezgra:
 
 \begin{lstlisting}[language=Python]
 def shaking(current_core, M):
@@ -689,17 +686,16 @@ def shaking(current_core, M):
 \end{lstlisting}
 \vspace{0.5cm}
 
-Nakon razmrdavanja, novo jezgro se prosleđuje funkciji $local\_search$, koja dodaje nove valuacije i pokušava da pronađe bolje rešenje, pod uslovom da prošireni skup ostaje validna Hornova teorija kao prethodno opisan algoritam pohlepne pretrage.
+Nakon razmrdavanja, novo jezgro se prosleđuje funkciji \texttt{local\_search}, koja dodaje nove valuacije i pokušava da pronađe bolje rešenje, pod uslovom da prošireni skup ostaje validna Hornova teorija kao prethodno opisan algoritam pohlepne pretrage.
 
-Tokom svake iteracije, veličina trenutnog jezgra se beleži u listi $cores$, koja prati njegov razvoj. Algoritam koristi parametre $max\_iterations$ za broj ukupnih iteracija i $k\_max$ za broj različitih okolina koje se istražuju u svakoj iteraciji. Na kraju, funkcija $variable\_neighborhood\_search$ vraća konačno Hornovo jezgro $horn\_core$ i listu $cores$ koja prikazuje rast jezgra tokom pretrage.
+Tokom svake iteracije, veličina trenutnog jezgra se beleži u listi \texttt{cores}, koja prati njegov razvoj. Algoritam koristi parametre \texttt{max\_iterations} za broj ukupnih iteracija i \texttt{k\_max} za broj različitih okolina koje se istražuju u svakoj iteraciji. Na kraju, funkcija \texttt{variable\_neighborhood\_search} vraća konačno Hornovo jezgro \texttt{horn\_core} i listu \texttt{cores} koja prikazuje rast jezgra tokom pretrage.
 
-Implementacija algoritma za generisanje Hornove formule počinje identifikacijom zajedničkih jedinica u datom skupu modela. Funkcija $find\_common\_ones$ prolazi kroz sve modele i identifikuje promenljive koje su jednake 1 u svim modelima. Zatim se koristi funkcija $shorten\_models$ kako bi se ovi modeli skratili uklanjanjem zajedničkih jedinica. Ova funkcija koristi metodu $join$ iz standardne $Python$ biblioteke, koja spaja elemente liste u jedan string.
+Implementacija algoritma za generisanje Hornove formule počinje identifikacijom zajedničkih jedinica u datom skupu modela. Funkcija \texttt{find\_common\_ones} prolazi kroz sve modele i identifikuje promenljive koje su jednake 1 u svim modelima. Zatim se koristi funkcija \texttt{shorten\_models} kako bi se ovi modeli skratili uklanjanjem zajedničkih jedinica. Ova funkcija koristi metodu \texttt{join} iz standardne $Python$ biblioteke, koja spaja elemente liste u jedan string.
 
-Nakon toga, funkcija $generate\_all\_combinations$ generiše sve moguće varijacije binarnih vrednosti za promenljive koje nisu zajedničke jedinice. Svaka od ovih kombinacija se proširuje kako bi se ponovo uključile zajedničke jedinice.
+Nakon toga, funkcija \texttt{generate\_all\_combinations} generiše sve moguće varijacije binarnih vrednosti za promenljive koje nisu zajedničke jedinice. Svaka od ovih kombinacija se proširuje kako bi se ponovo uključile zajedničke jedinice.
 
-Sledeći korak je generisanje formule u konjuktivnoj normalnoj formi. Funkcija $generate\_formula$ prolazi kroz sve moguće varijacije i generiše CNF klauze za one varijacije koje nisu prisutne u skraćenim modelima. Svaka klauza se sastoji od literala koji su suprotne vrednosti odgovarajućih promenljivih. Kada je vrednost promenljive 1, koristi se negativni literal, a kada je vrednost 0, koristi se pozitvni literal. Na kraju se formula dopunjuje dodavanjem literala koji odgovaraju zajedničkim jedinicama.
+Sledeći korak je generisanje formule u konjuktivnoj normalnoj formi. Funkcija \texttt{generate\_formula} prolazi kroz sve moguće varijacije i generiše CNF klauze za one varijacije koje nisu prisutne u skraćenim modelima. Svaka klauza se sastoji od literala koji su suprotne vrednosti odgovarajućih promenljivih. Kada je vrednost promenljive 1, koristi se negativni literal, a kada je vrednost 0, koristi se pozitvni literal. Na kraju se formula dopunjuje dodavanjem literala koji odgovaraju zajedničkim jedinicama.
 
-\newpage
 
 \begin{lstlisting}[language=Python]
 formula=""
@@ -720,9 +716,9 @@ formula=""
 \end{lstlisting}
 \vspace{0.5cm}
 
-Da bi se osigurala ispravnost Hornove formule, funkcija $reduce\_formula$ koristi rezoluciju klauza. Ova funkcija iterativno proverava da li postoji neka klauza sa više od jednog pozitivnog literala i pokušava da je zameni sa novom, pojednostavljenom klauzom koristeći rezoluciju između parova klauza pomoću funkcije $resolve\_clause$. Ako se uspešno izvrši rezolucija, originalne klauze se zamenjuju novom, dok se formula ne sastoji isključivo od Hornovih klauza. Konačan rezultat je Hornova formula u CNF obliku.
+Da bi se osigurala ispravnost Hornove formule, funkcija \texttt{reduce\_formula} koristi rezoluciju klauza. Ova funkcija iterativno proverava da li postoji neka klauza sa više od jednog pozitivnog literala i pokušava da je zameni sa novom, pojednostavljenom klauzom koristeći rezoluciju između parova klauza pomoću funkcije \texttt{resolve\_clause}. Ako se uspešno izvrši rezolucija, originalne klauze se zamenjuju novom, dok se formula ne sastoji isključivo od Hornovih klauza. Konačan rezultat je Hornova formula u CNF obliku.
 
-Iako procesor ima 12 jezgara, algoritmi nisu implementirani za paralelno izvršavanje, što može uticati na brzinu obrade. Implementacija svih struktura podataka poput skupova, listi i uređenih parova, koristi standardne biblioteke $Python$ jezika, kao što su $set$, $list$ i $tuple$. Pomoćni algoritmi za mešanje i izbor elementa iz skupa su realizovani korišćenjem ugrađenih funkcija poput $shuffle$ i $choice$. Generisanje test instanci koristi ugrađenu biblioteku $random$ i ti podaci su smešteni u tekstualnim datotekama, što omogućava lakšu organizaciju i ponovnu upotrebu i analizu tih podataka.
+Iako procesor ima 12 jezgara, algoritmi nisu implementirani za paralelno izvršavanje, što može uticati na brzinu obrade. Implementacija svih struktura podataka poput skupova, listi i uređenih parova, koristi standardne biblioteke $Python$ jezika, kao što su \texttt{set}, \texttt{list} i \texttt{tuple}. Pomoćni algoritmi za mešanje i izbor elementa iz skupa su realizovani korišćenjem ugrađenih funkcija poput \texttt{shuffle} i \texttt{choice}. Generisanje test instanci koristi ugrađenu biblioteku \texttt{random} i ti podaci su smešteni u tekstualnim datotekama, što omogućava lakšu organizaciju i ponovnu upotrebu i analizu tih podataka.
 
 \chapter{Evaluacija algoritama}
 U ovom poglavlju biće prikazani eksperimentalni rezultati izvršavanja algoritama. Prvo će biti analizirani rezultati za male testne instance, a zatim za velike testne instance.
